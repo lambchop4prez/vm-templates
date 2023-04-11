@@ -1,0 +1,73 @@
+#cloud-config
+autoinstall:
+  version: 1
+  locale: en_US
+  keyboard:
+    layout: en_US
+  ssh:
+    install-server: true
+    allow-pw: true
+    disable_root: true
+    ssh_quiet_keygen: true
+    allow_public_ssh_keys: true
+  packages:
+    - qemu-guest-agent
+    - sudo
+  storage:
+    layout:
+      name: direct
+    swap:
+      size: 0
+  user-data:
+    package_upgrade: true
+    timezone: America/New-York
+    users:
+      - name: ubuntu
+        groups: [adm, sudo]
+        lock-passwd: false
+        sudo: ALL=(ALL) NOPASSWD:ALL
+        shell: /bin/bash
+        passwd: "$6$exDY1mhS4KUYCE/2$zmn9ToZwTKLhCw.b4/b.ZRTIZM30JZ4QrOQ2aOXJ8yk96xpcCof0kxKwuX1kqLG/ygbJ1f8wxED22bTL4F46P0" #ubuntu
+        # - or -
+        # ssh_authorized_keys:
+        #   - your-ssh-key
+# autoinstall:
+#   version: 1
+#   locale: en_US
+#   keyboard:
+#     layout: en
+#   ssh:
+#     install-server: true
+#     allow-pw: true
+#     disable_root: true
+#     ssh_quiet_keygen: true
+#     allow_public_ssh_keys: true
+
+#   packages:
+#     - qemu-guest-agent
+#     - sudo
+#   storage:
+#     layout:
+#       name: direct
+#     swap:
+#       size: 0
+#   user-data:
+#     package_upgrade: true
+#     timezone: America/Detroit
+#     users:
+#       - name: tmc
+#         passwd: $6$rounds=4096$wBEKedO2ADLA1wuM$ZzbH4TnbxSk0TzZuXS16HzbOCWWZnfmZS0bfxs8dWRvtG2lgo7tunYVTRaNo/6kQbPaljDmPfizR1jQOKA02h.
+#         groups: [adm, cdrom, dip, plugdev, lxd, sudo]
+#         lock-passwd: false
+#         sudo: ALL=(ALL) NOPASSWD:ALL
+#         shell: /bin/bash
+#         ssh_import_id:
+#           - gh:lambchop4prez
+#         ssh_authorized_keys:
+#           - ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBAFG6y3qeUdWbXiyTOEwxKAyd7srtOntd37BzEmNNAlyya5sn6zUfDsBY6Poc+reS7n4gaMLAjuCjoVNdSd8gnwttQENETn5Ej0057tsXFZW1sRh0ABpwhT32FaLe89qek8PjXp/IbEE7i45I69rlMXaf34ivRjFywBeQ10hcNp2tnjqrQ== tmc@Rudy.lan
+#           - ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBAHdRgaHrPUcx0dAlqQxBPFCcjppSSvKeU6yWjkk1SfJv1IRm7ZUDMGtKUhsRYGSFYy+CHPGvIBxUP10VGr7ATsnmgDeWgE5SCtdEn0j/IIzEuxlTSAaUuQDb49MBh081TL29uY4qM8i9ceVyV0zNbg4RQ77s8cx89byTLSdVa+UM3UZaQ== tmc@Jocelyn.lan
+#   early-commands:
+#     - systemctl stop ssh
+#   late-commands:
+#     - curtin in-target --target=/target -- apt update
+#     - curtin in-target --target=/target -- apt upgrade -y
