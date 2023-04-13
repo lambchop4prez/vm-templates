@@ -5,8 +5,8 @@ source "proxmox-iso" "ubuntu-server" {
     password = "${var.proxmox_password}"
     insecure_skip_tls_verify = "true"
     node = "${var.proxmox_node}"
-    vm_name = "ubuntu-server"
-    vm_id = "9000"
+    vm_name = "ubuntu-server-${var.os_version}"
+    vm_id = "${var.proxmox_vm_id}"
     
     sockets = "${var.vm_cpu_sockets}"
     cores = "${var.vm_cpu_cores}"
@@ -26,8 +26,8 @@ source "proxmox-iso" "ubuntu-server" {
 
     additional_iso_files {
         cd_files = [
-            "${path.root}/22.04/meta-data",
-            "${path.root}/22.04/user-data"
+            "${path.root}/${var.os_version}/meta-data",
+            "${path.root}/${var.os_version}/user-data"
         ]
         cd_label         = "cidata"
         iso_storage_pool = "local"
@@ -49,13 +49,12 @@ source "proxmox-iso" "ubuntu-server" {
     }
     disks {
         storage_pool = "local-lvm"
-        storage_pool_type = "lvm"
         type = "scsi"
         disk_size = "${var.vm_os_disk_size}"
         cache_mode = "none"
     }
 
-    template_name = "ubuntu-server"
+    template_name = "ubuntu-server-${var.os_version}"
     template_description = "Base template for ubuntu servers"
 
     unmount_iso = "true"

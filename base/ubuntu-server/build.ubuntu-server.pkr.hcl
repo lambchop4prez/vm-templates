@@ -1,15 +1,6 @@
-packer {
-  required_plugins {
-    proxmox = {
-      version = ">= 1.1.2"
-      source  = "github.com/hashicorp/proxmox"
-    }
-  }
-}
-
 build {
     name = "base.ubuntu-server"
-    sources = ["source.proxmox-iso.ubuntu-server"]
+    sources = "${var.sources}"
     
     provisioner "shell" {
         inline = [
@@ -26,7 +17,7 @@ build {
     }
 
     provisioner "file" {
-        source = "99-pve.cfg"
+        source = "${path.cwd}/files/99-pve.cfg"
         destination = "/tmp/99-pve.cfg"
     }
 
@@ -35,4 +26,6 @@ build {
             "sudo cp /tmp/99-pve.cfg /etc/cloud/cloud.cfg.d/99-pve.cfg"
         ]
     }
+
+    
 }
