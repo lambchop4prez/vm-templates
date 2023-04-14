@@ -1,10 +1,9 @@
-
 source "proxmox-iso" "ubuntu-server" {
-    proxmox_url = "${var.proxmox_url}"
-    username = "${var.proxmox_username}"
-    password = "${var.proxmox_password}"
-    insecure_skip_tls_verify = "true"
-    node = "${var.proxmox_node}"
+    proxmox_url = "${local.proxmox_url}"
+    username = "${local.proxmox_username}"
+    password = "${local.proxmox_password}"
+    insecure_skip_tls_verify = "${local.proxmox_skip_tls_verify}"
+    node = "${local.proxmox_node}"
     vm_name = "ubuntu-server-${var.os_version}"
     vm_id = "${var.proxmox_vm_id}"
     
