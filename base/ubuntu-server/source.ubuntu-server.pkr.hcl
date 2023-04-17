@@ -6,12 +6,12 @@ source "proxmox-iso" "ubuntu-server" {
     node = "${local.proxmox_node}"
     vm_name = "ubuntu-server-${var.os_version}"
     vm_id = "${var.proxmox_vm_id}"
-    
+
     sockets = "${var.vm_cpu_sockets}"
     cores = "${var.vm_cpu_cores}"
     memory = "${var.vm_mem_size}"
     cpu_type = "${var.vm_cpu_type}"
-    
+
     boot      = "c"
     boot_wait = "7s"
     boot_command = [
@@ -32,7 +32,7 @@ source "proxmox-iso" "ubuntu-server" {
         iso_storage_pool = "local"
         unmount = true
     }
-    
+
     iso_checksum = "file:https://releases.ubuntu.com/22.04.2/SHA256SUMS"
     iso_file = "local:iso/ubuntu-22.04.2-live-server-amd64.iso"
     scsi_controller = "virtio-scsi-pci"
@@ -60,7 +60,7 @@ source "proxmox-iso" "ubuntu-server" {
     qemu_agent = "true"
     cloud_init = true
     cloud_init_storage_pool="local"
-    
+
     communicator = "ssh"
     ssh_username = "ubuntu"
     ssh_password = "ubuntu"

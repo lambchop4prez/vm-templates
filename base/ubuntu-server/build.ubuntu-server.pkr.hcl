@@ -1,7 +1,7 @@
 build {
     name = "base.ubuntu-server"
     sources = "${var.sources}"
-    
+
     provisioner "shell" {
         inline = [
             "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done",
@@ -26,6 +26,4 @@ build {
             "sudo cp /tmp/99-pve.cfg /etc/cloud/cloud.cfg.d/99-pve.cfg"
         ]
     }
-
-    
 }
