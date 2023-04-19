@@ -1,13 +1,13 @@
 variable "os_version" {
   type        = string
-  default     = "22.04"
-  description = "OS Version to build, requires a corresponding folder with cloud-init data"
+  default     = "22H2"
+  description = "OS Version to build, requires a corresponding folder with autounattend.xml"
 }
 
 variable "sources" {
   type = list(string)
   default = [
-    "source.proxmox-iso.ubuntu-server"
+    "source.proxmox-iso.windows-desktop"
   ]
 }
 variable "ssh_password" {
@@ -35,5 +35,5 @@ variable "vm_cpu_type" {
 }
 variable "vm_os_disk_size" {
   type    = string
-  default = "32G"
+  default = "64G"
 }
