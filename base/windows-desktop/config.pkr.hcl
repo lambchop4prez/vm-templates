@@ -4,5 +4,8 @@ packer {
       version = ">= 1.1.2"
       source  = "github.com/hashicorp/proxmox"
     }
+    # windows_update = {
+
+    # }
   }
 }
