@@ -37,3 +37,9 @@ variable "vm_os_disk_size" {
   type    = string
   default = "32G"
 }
+
+variable "vm_os_iso_name" {
+  description = "The iso name, including extension, of the OS install media."
+  type        = string
+  default     = "ubuntu-22.04.2-live-server-amd64.iso"
+}
