@@ -14,6 +14,12 @@ source "proxmox-iso" "windows-desktop" {
   memory   = "${var.vm_mem_size}"
   cpu_type = "${var.vm_cpu_type}"
 
+  bios = "ovmf"
+  efi_config = {
+    "efi_storage_pool" = "local"
+  }
+  machine = "q35"
+
   iso_file     = "local:iso/Win10_22H2_English_x64.iso"
   iso_checksum = ""
 
