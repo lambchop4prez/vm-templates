@@ -27,7 +27,9 @@ source "proxmox-iso" "alpine" {
     "mount /dev/sda3 /mnt<enter><wait>",
     "echo 'PermitRootLogin yes' >> /mnt/etc/ssh/sshd_config<enter><wait>",
     "umount /mnt<enter><wait>",
-    "apk add qemu-gues-agent<enter><wait5>",
+    "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/setup.sh<enter><wait>",
+    "chmod +x $PWD/setup.sh<enter><wait>",
+    "$PWD/setup.sh<enter><wait5>",
     "reboot<enter>"
   ]
 
