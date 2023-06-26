@@ -1,3 +1,7 @@
+locals {
+  ssh_password = coalesce(var.ssh_password, vault("/secrets/data/vm-templates", "ssh_password"))
+}
+
 variable "os_version" {
   type        = string
   default     = "3.18"
@@ -12,7 +16,7 @@ variable "sources" {
 }
 variable "ssh_password" {
   type      = string
-  default   = "${env("SSH_PASSWORD")}"
+  default   = null
   sensitive = true
 }
 

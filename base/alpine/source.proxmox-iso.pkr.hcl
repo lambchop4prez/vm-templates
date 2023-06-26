@@ -13,31 +13,23 @@ source "proxmox-iso" "alpine" {
   cpu_type = "${var.vm_cpu_type}"
 
   boot      = null
-  boot_wait = "7s"
+  boot_wait = "15s"
   boot_command = [
     "root<enter><wait>",
     "ifconfig eth0 up && udhcpc -i eth0<enter><wait5>",
     "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/answers<enter><wait>",
     "setup-alpine -f answers<enter><wait5>",
-    "{{user `ssh_password`}}<enter><wait>",
-    "{{user `ssh_password`}}<enter><wait5>",
-    "<wait>y<enter><wait10>",
-    "rc-service sshd stop<enter>",
-    "mount /dev/sda3 /mnt<enter>",
-    "echo 'PermitRootLogin yes' >> /mnt/etc/ssh/sshd_config<enter>",
-    "umount /mnt<enter>",
+    "${local.ssh_password}<enter><wait>",
+    "${local.ssh_password}<enter><wait20>",
+    "no<enter><wait15>",
+    "y<enter><wait25>",
+    "rc-service sshd stop<enter><wait>",
+    "mount /dev/sda3 /mnt<enter><wait>",
+    "echo 'PermitRootLogin yes' >> /mnt/etc/ssh/sshd_config<enter><wait>",
+    "umount /mnt<enter><wait>",
+    "apk add qemu-gues-agent<enter><wait5>",
     "reboot<enter>"
   ]
-
-  # additional_iso_files {
-  #   cd_files = [
-  #     "${path.root}/${var.os_version}/meta-data",
-  #     "${path.root}/${var.os_version}/user-data"
-  #   ]
-  #   cd_label         = "cidata"
-  #   iso_storage_pool = "local"
-  #   unmount          = true
-  # }
 
   iso_checksum    = "file:https://dl-cdn.alpinelinux.org/alpine/v3.18/releases/x86_64/${var.vm_os_iso_name}.sha256"
   iso_file        = "local:iso/${var.vm_os_iso_name}"
@@ -61,7 +53,7 @@ source "proxmox-iso" "alpine" {
 
   template_name        = "alpine-${var.os_version}"
   template_description = "Base template for Alpine Linux"
-  http_directory       = "${var.os_version}"
+  http_directory       = "${path.root}/${var.os_version}"
 
   unmount_iso             = "true"
   qemu_agent              = "true"
@@ -69,8 +61,8 @@ source "proxmox-iso" "alpine" {
   cloud_init_storage_pool = "local"
 
   communicator           = "ssh"
-  ssh_username           = "ubuntu"
-  ssh_password           = "ubuntu"
+  ssh_username           = "root"
+  ssh_password           = "${local.ssh_password}"
   ssh_handshake_attempts = "20"
-  ssh_timeout            = "30m"
+  ssh_timeout            = "15m"
 }

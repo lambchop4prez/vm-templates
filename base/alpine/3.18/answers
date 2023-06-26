@@ -14,13 +14,13 @@ iface eth0 inet dhcp
 "
 
 # Search domain of example.com, Google public nameserver
-DNSOPTS="-d example.com 8.8.8.8"
+DNSOPTS="-d 10.4.1.1"
 
 # Set timezone to UTC
 TIMEZONEOPTS="-z UTC"
 
 # set http/ftp proxy
-PROXYOPTS="http://webproxy:8080"
+PROXYOPTS=none
 
 # Add a random mirror
 APKREPOSOPTS="-r"
@@ -32,8 +32,8 @@ SSHDOPTS="-c openssh"
 NTPOPTS="-c openntpd"
 
 # Use /dev/sda as a data disk
-DISKOPTS="-m data /dev/sda"
+DISKOPTS="-m sys /dev/sda"
 
 # Setup in /media/sdb1
-LBUOPTS="/media/sdb1"
-APKCACHEOPTS="/media/sdb1/cache"
+LBUOPTS=none
+APKCACHEOPTS=none
