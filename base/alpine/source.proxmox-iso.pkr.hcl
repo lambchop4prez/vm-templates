@@ -15,10 +15,13 @@ source "proxmox-iso" "alpine" {
   boot      = null
   boot_wait = "15s"
   boot_command = [
+    # "<wait300>",
     "root<enter><wait>",
     "ifconfig eth0 up && udhcpc -i eth0<enter><wait5>",
-    "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/answers<enter><wait>",
-    "setup-alpine -f answers<enter><wait5>",
+    # "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/answers<enter><wait>",
+    "mount /dev/sr1 /media/cdrom<enter><wait>",
+    "cp /media/cdrom/answers $PWD<enter><wait>",
+    "setup-alpine -f $PWD/answers<enter><wait5>",
     "${local.ssh_password}<enter><wait>",
     "${local.ssh_password}<enter><wait20>",
     "no<enter><wait15>",
@@ -31,10 +34,24 @@ source "proxmox-iso" "alpine" {
     "<wait30>",
     "root<enter>",
     "${local.ssh_password}<enter><wait>",
-    "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/setup.sh<enter><wait>",
+    # "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/setup.sh<enter><wait>",
+    "mount /dev/sr1 /media/cdrom<enter><wait>",
+    "cp /media/cdrom/setup.sh $PWD<enter><wait>",
     "chmod +x $PWD/setup.sh<enter><wait>",
     "$PWD/setup.sh<enter><wait5>",
+    "rm $PWD/setup.sh<enter>"
   ]
+
+  additional_iso_files {
+    cd_files = [
+      "${path.root}/${var.os_version}/answers",
+      "${path.root}/${var.os_version}/setup.sh"
+    ]
+
+    cd_label         = "cidata"
+    iso_storage_pool = "local"
+    unmount          = true
+  }
 
   iso_checksum    = "file:https://dl-cdn.alpinelinux.org/alpine/v3.18/releases/x86_64/${var.vm_os_iso_name}.sha256"
   iso_file        = "local:iso/${var.vm_os_iso_name}"
