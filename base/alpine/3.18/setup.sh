@@ -8,8 +8,6 @@ sed -r -i '\|/v[0-9]+\.[0-9]+/community|s|^#\s?||g' /etc/apk/repositories
 apk update
 
 apk add qemu-guest-agent
-echo -e GA_PATH="/dev/vport2p1" >> /etc/conf.d/qemu-guest-agent
+echo -e GA_PATH="/dev/virtio-ports/org.qemu.guest_agent.0" >> /etc/conf.d/qemu-guest-agent
 rc-update add qemu-guest-agent
 rc-service qemu-guest-agent restart
-
-
