@@ -13,7 +13,7 @@ source "proxmox-iso" "alpine" {
   cpu_type = "${var.vm_cpu_type}"
 
   boot      = null
-  boot_wait = "15s"
+  boot_wait = "20s"
   boot_command = [
     # "<wait300>",
     "root<enter><wait>",
@@ -75,12 +75,11 @@ source "proxmox-iso" "alpine" {
 
   template_name        = "alpine-${var.os_version}"
   template_description = "Base template for Alpine Linux"
-  http_directory       = "${path.root}/${var.os_version}"
 
-  unmount_iso             = "true"
-  qemu_agent              = "true"
-  cloud_init              = true
-  cloud_init_storage_pool = "local"
+  unmount_iso = "true"
+  qemu_agent  = "true"
+  # cloud_init              = true
+  # cloud_init_storage_pool = "local"
 
   communicator           = "ssh"
   ssh_username           = "root"

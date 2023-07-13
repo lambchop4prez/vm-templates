@@ -5,8 +5,14 @@ build {
   provisioner "shell" {
     inline = [
       "apk update",
-      "apk add --no-cache sudo python3",
+      "apk add --no-cache sudo doas python3 chrony openssh-server-pam",
       "apk add --no-cache cloud-init cloud-utils-growpart e2fsprogs-extra",
+    ]
+  }
+
+  provisioner "shell" {
+    inline = [
+      "sed -i -e '$aUsePAM yes' /etc/ssh/sshd_config"
     ]
   }
 

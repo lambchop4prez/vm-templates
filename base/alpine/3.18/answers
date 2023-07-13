@@ -29,7 +29,7 @@ APKREPOSOPTS="-r"
 SSHDOPTS="-c openssh"
 
 # Use openntpd
-NTPOPTS="-c openntpd"
+NTPOPTS="-c chrony"
 
 # Use /dev/sda as a data disk
 DISKOPTS="-m sys /dev/sda"
