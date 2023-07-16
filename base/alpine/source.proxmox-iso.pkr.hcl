@@ -15,10 +15,8 @@ source "proxmox-iso" "alpine" {
   boot      = null
   boot_wait = "20s"
   boot_command = [
-    # "<wait300>",
     "root<enter><wait>",
     "ifconfig eth0 up && udhcpc -i eth0<enter><wait5>",
-    # "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/answers<enter><wait>",
     "mount /dev/sr1 /media/cdrom<enter><wait>",
     "cp /media/cdrom/answers $PWD<enter><wait>",
     "setup-alpine -f $PWD/answers<enter><wait5>",
@@ -34,7 +32,6 @@ source "proxmox-iso" "alpine" {
     "<wait30>",
     "root<enter>",
     "${local.ssh_password}<enter><wait>",
-    # "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/setup.sh<enter><wait>",
     "mount /dev/sr1 /media/cdrom<enter><wait>",
     "cp /media/cdrom/setup.sh $PWD<enter><wait>",
     "chmod +x $PWD/setup.sh<enter><wait>",
@@ -78,8 +75,6 @@ source "proxmox-iso" "alpine" {
 
   unmount_iso = "true"
   qemu_agent  = "true"
-  # cloud_init              = true
-  # cloud_init_storage_pool = "local"
 
   communicator           = "ssh"
   ssh_username           = "root"
