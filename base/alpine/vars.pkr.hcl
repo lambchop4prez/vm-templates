@@ -1,18 +1,22 @@
+locals {
+  ssh_password = coalesce(var.ssh_password, vault("/secrets/data/vm-templates", "ssh_password"))
+}
+
 variable "os_version" {
   type        = string
-  default     = "22.04"
+  default     = "3.18"
   description = "OS Version to build, requires a corresponding folder with cloud-init data"
 }
 
 variable "sources" {
   type = list(string)
   default = [
-    "source.proxmox-iso.ubuntu-server"
+    "source.proxmox-iso.alpine"
   ]
 }
 variable "ssh_password" {
   type      = string
-  default   = "${env("SSH_PASSWORD")}"
+  default   = null
   sensitive = true
 }
 
@@ -41,5 +45,5 @@ variable "vm_os_disk_size" {
 variable "vm_os_iso_name" {
   description = "The iso name, including extension, of the OS install media."
   type        = string
-  default     = "ubuntu-22.04.2-live-server-amd64.iso"
+  default     = "alpine-standard-3.18.2-x86_64.iso"
 }

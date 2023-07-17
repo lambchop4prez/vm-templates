@@ -34,7 +34,7 @@ source "proxmox-iso" "ubuntu-server" {
   }
 
   iso_checksum    = "file:https://releases.ubuntu.com/22.04.2/SHA256SUMS"
-  iso_file        = "local:iso/ubuntu-22.04.2-live-server-amd64.iso"
+  iso_file        = "local:iso/${var.vm_os_iso_name}"
   scsi_controller = "virtio-scsi-pci"
   os              = "l26"
 
