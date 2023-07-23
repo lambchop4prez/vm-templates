@@ -15,20 +15,21 @@ source "proxmox-iso" "windows-desktop" {
   cpu_type = "${var.vm_cpu_type}"
 
   bios = "ovmf"
-  efi_config = {
-    "efi_storage_pool" = "local"
+  efi_config {
+    efi_storage_pool = "local-lvm"
   }
   machine = "q35"
 
-  iso_file     = "local:iso/Win10_22H2_English_x64.iso"
-  iso_checksum = ""
-
+  iso_file        = "local:iso/Win10_22H2_English_x64v1.iso"
+  iso_checksum    = "A6F470CA6D331EB353B815C043E327A347F594F37FF525F17764738FE812852E"
+  scsi_controller = "virtio-scsi-pci"
   additional_iso_files {
     cd_files = [
       "${path.root}/${var.os_version}/autounattend.xml"
     ]
     iso_storage_pool = "local"
     unmount          = true
+    device           = "sata2"
   }
 
   network_adapters {
@@ -37,7 +38,7 @@ source "proxmox-iso" "windows-desktop" {
   }
   disks {
     storage_pool = "local-lvm"
-    type         = "scsi"
+    type         = "sata"
     disk_size    = "${var.vm_os_disk_size}"
     cache_mode   = "none"
   }
