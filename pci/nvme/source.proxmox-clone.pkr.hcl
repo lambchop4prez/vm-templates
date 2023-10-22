@@ -7,6 +7,7 @@ source "proxmox-clone" "nvme-passthrough" {
   vm_name                  = "alpine-${var.os_version}"
   vm_id                    = "${var.proxmox_vm_id}"
 
+  machine         = "q35"
   sockets         = "${var.vm_cpu_sockets}"
   cores           = "${var.vm_cpu_cores}"
   memory          = "${var.vm_mem_size}"
