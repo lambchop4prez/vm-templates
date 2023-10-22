@@ -45,5 +45,5 @@ variable "vm_os_disk_size" {
 variable "vm_os_iso_name" {
   description = "The iso name, including extension, of the OS install media."
   type        = string
-  default     = "alpine-standard-3.18.2-x86_64.iso"
+  default     = "alpine-standard-3.18.4-x86_64.iso"
 }
