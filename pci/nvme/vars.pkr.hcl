@@ -14,6 +14,13 @@ variable "sources" {
     "source.proxmox-clone.nvme-passthrough"
   ]
 }
+
+variable "ssh_user" {
+  type      = string
+  default   = null
+  sensitive = true
+}
+
 variable "ssh_password" {
   type      = string
   default   = null
@@ -57,7 +64,7 @@ variable "pci_device_name" {
 variable "pci_host_device" {
   description = "The PCI device ID to attatch"
   type        = string
-  default     = "0000:02:00.0"
+  default     = "sandisk-iomemory"
 }
 
 variable "install_fio_drivers" {
