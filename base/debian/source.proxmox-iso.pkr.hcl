@@ -52,10 +52,12 @@ source "proxmox-iso" "debian" {
     type   = "std"
     memory = 32
   }
+
   network_adapters {
     model  = "virtio"
     bridge = "vmbr0"
   }
+
   disks {
     storage_pool = "local-lvm"
     type         = "virtio"
