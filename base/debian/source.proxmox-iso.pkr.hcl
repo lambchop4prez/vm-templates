@@ -58,7 +58,7 @@ source "proxmox-iso" "debian" {
   }
   disks {
     storage_pool = "local-lvm"
-    type         = "scsi"
+    type         = "virtio"
     disk_size    = "${var.vm_os_disk_size}"
     cache_mode   = "none"
   }
