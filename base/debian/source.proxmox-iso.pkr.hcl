@@ -20,7 +20,7 @@ source "proxmox-iso" "debian" {
   qemu_agent  = "true"
 
   communicator           = "ssh"
-  ssh_username           = "vagrant"
+  ssh_username           = "root"
   ssh_password           = "vagrant"
   ssh_handshake_attempts = "20"
   ssh_timeout            = "15m"
