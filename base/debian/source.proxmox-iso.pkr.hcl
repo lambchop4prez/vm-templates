@@ -32,17 +32,6 @@ source "proxmox-iso" "debian" {
     "<esc><wait>auto url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<enter>"
   ]
 
-  # additional_iso_files {
-  #   cd_files = [
-  #     "${path.root}/${var.os_version}/answers",
-  #     "${path.root}/${var.os_version}/setup.sh"
-  #   ]
-
-  #   cd_label         = "cidata"
-  #   iso_storage_pool = "local"
-  #   unmount          = true
-  # }
-
   iso_checksum    = "file:https://cdimage.debian.org/debian-cd/12.2.0/amd64/iso-cd/SHA256SUMS"
   iso_file        = "local:iso/${var.vm_os_iso_name}"
   scsi_controller = "virtio-scsi-pci"
