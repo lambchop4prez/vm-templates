@@ -4,7 +4,7 @@ source "proxmox-clone" "nvme-passthrough" {
   password                 = "${local.proxmox_password}"
   insecure_skip_tls_verify = "${local.proxmox_skip_tls_verify}"
   node                     = "${local.proxmox_node}"
-  vm_name                  = "alpine-${var.os_version}"
+  vm_name                  = "${local.proxmox_vm_name}"
   vm_id                    = "${var.proxmox_vm_id}"
 
   machine         = "q35"
@@ -15,16 +15,16 @@ source "proxmox-clone" "nvme-passthrough" {
   scsi_controller = "virtio-scsi-pci"
   os              = "l26"
 
-  clone_vm_id = "9002"
+  clone_vm_id = "9005"
 
-  template_name        = "${var.clone_vm}-nvme-${var.pci_device_name}"
-  template_description = "Base template for Alpine Linux"
+  template_name        = "${local.hostname}"
+  template_description = "NVME Disk template with ${var.pci_host_device} attached"
 
   qemu_agent = "true"
 
   communicator           = "ssh"
-  ssh_username           = "${var.ssh_user}"
-  ssh_password           = "${var.ssh_password}"
+  ssh_username           = "vagrant"
+  ssh_password           = "vagrant"
   ssh_handshake_attempts = "20"
   ssh_timeout            = "15m"
 
@@ -33,19 +33,24 @@ source "proxmox-clone" "nvme-passthrough" {
     type   = "std"
     memory = 32
   }
+
   network_adapters {
     model  = "virtio"
     bridge = "vmbr0"
   }
-  # disks {
-  #   storage_pool = "local-lvm"
-  #   type         = "scsi"
-  #   disk_size    = "${var.vm_os_disk_size}"
-  #   cache_mode   = "none"
-  # }
 
   pci_devices {
     mapping = "${var.pci_host_device}"
     pcie    = true
+  }
+
+  additional_iso_files {
+    cd_content = {
+      "meta-data" = jsonencode("{}")
+      "user-data" = templatefile("tpl/user-data.${var.install_mode}.tpl", { hostname = local.hostname, username = var.ssh_user, password = local.ssh_password })
+    }
+    cd_label         = "cidata"
+    iso_storage_pool = "local"
+    unmount          = true
   }
 }

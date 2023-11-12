@@ -1,5 +1,6 @@
 locals {
   ssh_password = coalesce(var.ssh_password, vault("/secrets/data/vm-templates", "ssh_password"))
+  hostname     = "${var.clone_os}-nvme-${var.pci_device_name}"
 }
 
 variable "os_version" {
@@ -17,7 +18,7 @@ variable "sources" {
 
 variable "ssh_user" {
   type      = string
-  default   = null
+  default   = "user-nvme"
   sensitive = true
 }
 
@@ -52,13 +53,19 @@ variable "vm_os_disk_size" {
 variable "clone_vm" {
   description = "The VM to clone"
   type        = string
-  default     = "alpine-3.18"
+  default     = "debian-12.2.0"
+}
+
+variable "clone_os" {
+  description = "OS of Cloned VM"
+  type        = string
+  default     = "debian-bookworm"
 }
 
 variable "pci_device_name" {
   description = "The device name to pass through"
   type        = string
-  default     = "nvme-ssd-1"
+  default     = "iomemory-1"
 }
 
 variable "pci_host_device" {
@@ -67,8 +74,8 @@ variable "pci_host_device" {
   default     = "sandisk-iomemory"
 }
 
-variable "install_fio_drivers" {
+variable "pci_device_type" {
   description = "(Optional) - Install custom FusionIO kernel drivers."
-  type        = bool
-  default     = false
+  type        = string
+  default     = "fio"
 }
