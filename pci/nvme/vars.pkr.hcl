@@ -1,12 +1,7 @@
 locals {
+  ssh_username = "user-nvme"
   ssh_password = coalesce(var.ssh_password, vault("/secrets/data/vm-templates", "ssh_password"))
-  hostname     = "${var.clone_os}-nvme-${var.pci_device_name}"
-}
-
-variable "os_version" {
-  type        = string
-  default     = "3.18"
-  description = "OS Version to build, requires a corresponding folder with cloud-init data"
+  hostname     = "${var.clone_os}-${var.pci_device_name}"
 }
 
 variable "sources" {
@@ -14,12 +9,6 @@ variable "sources" {
   default = [
     "source.proxmox-clone.nvme-passthrough"
   ]
-}
-
-variable "ssh_user" {
-  type      = string
-  default   = "user-nvme"
-  sensitive = true
 }
 
 variable "ssh_password" {
@@ -50,10 +39,10 @@ variable "vm_os_disk_size" {
   default = "32G"
 }
 
-variable "clone_vm" {
+variable "clone_vm_id" {
   description = "The VM to clone"
-  type        = string
-  default     = "debian-12.2.0"
+  type        = number
+  default     = 9005
 }
 
 variable "clone_os" {
@@ -65,17 +54,17 @@ variable "clone_os" {
 variable "pci_device_name" {
   description = "The device name to pass through"
   type        = string
-  default     = "iomemory-1"
+  default     = "nvme-1"
 }
 
 variable "pci_host_device" {
   description = "The PCI device ID to attatch"
   type        = string
-  default     = "sandisk-iomemory"
+  default     = "PS5013-NVMe-Controller"
 }
 
 variable "pci_device_type" {
   description = "(Optional) - Install custom FusionIO kernel drivers."
   type        = string
-  default     = "fio"
+  default     = "nvme"
 }
