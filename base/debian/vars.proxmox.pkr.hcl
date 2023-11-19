@@ -8,5 +8,5 @@ locals {
 
 variable "proxmox_vm_id" {
   type    = string
-  default = "9005"
+  default = "8005"
 }
