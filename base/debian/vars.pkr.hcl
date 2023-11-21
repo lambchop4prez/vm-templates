@@ -1,10 +1,12 @@
 locals {
-  ssh_password = coalesce(var.ssh_password, vault("/secrets/data/vm-templates", "ssh_password"))
+  ssh_username  = coalesce(var.ssh_username, vault("/secrets/data/vm-templates/debian", "ssh_username"))
+  ssh_password  = coalesce(var.ssh_password, vault("/secrets/data/vm-templates/debian", "ssh_password"))
+  root_password = coalesce(var.root_password, vault("/secrets/data/vm-templates/debian", "root_password"))
 }
 
 variable "os_version" {
   type        = string
-  default     = "12.2.0"
+  default     = "12.2"
   description = "OS Version to build, requires a corresponding folder with cloud-init data"
 }
 
@@ -14,6 +16,18 @@ variable "sources" {
     "source.proxmox-iso.debian"
   ]
 }
+
+variable "root_password" {
+  type      = string
+  default   = null
+  sensitive = true
+}
+
+variable "ssh_username" {
+  type    = string
+  default = null
+}
+
 variable "ssh_password" {
   type      = string
   default   = null
@@ -40,6 +54,11 @@ variable "vm_cpu_type" {
 variable "vm_os_disk_size" {
   type    = string
   default = "32G"
+}
+
+variable "vm_os_codename" {
+  type    = string
+  default = "bookworm"
 }
 
 variable "vm_os_iso_name" {

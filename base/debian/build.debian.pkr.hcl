@@ -3,6 +3,7 @@ build {
   sources = "${var.sources}"
 
   provisioner "shell" {
+    execute_command = "echo '${local.root_password}' > su -c {{ .Path }}"
     inline = [
       "echo 'isofs' > /etc/modules-load.d/isofs.conf",
       "chmod -x /etc/modules-load.d/isofs.conf",
@@ -12,6 +13,7 @@ build {
   }
 
   provisioner "shell" {
-    script = "${path.cwd}/scripts/cleanup.sh"
+    execute_command = "echo '${local.root_password}' > su -c {{ .Path }}"
+    script          = "${path.cwd}/scripts/cleanup.sh"
   }
 }
